@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Password Generator
+        </title>
+        <style>
+             body{
+                background: linear-gradient(to right, #00c6ff, #0072ff);
+                align-items: center;
+                display: flex;
+                justify-content: center;
+                height: 100vh;
+             }
+             .container{
+                background: white;
+                width: 550px;
+                height: 250px;
+                text-align: center;
+                border-radius: 10px;
+             }
+             input[type="text"]{
+                width:50%;
+                height: 20px;
+                margin-bottom: 20px;
+                padding: 10px;
+                border:2px solid #ddd;
+                border-radius:8px;
+                font-size:16px;;
+             }
+             input[type="number"]{
+               border-radius: 5px;
+               border: 2px solid #ddd;
+               padding: 10px;
+               font-weight: 600;
+             }
+             .controls{
+               display: flex;
+               justify-content: center;
+               gap: 10px;
+             }
+             .generate{
+               background: #0072ff;
+               padding: 10px 20px;
+               color: white;
+               font-weight: 600;
+               border: none;
+               border-radius: 3px;
+               cursor: pointer;
+             }
+             .generate:hover{
+               transform: scale(0.9);
+               background: #005bb5;
+               transition:0.2s ease;
+             }
+             .copy{
+               background: #126149;
+               padding: 10px 20px;
+               color: white;
+               font-weight: 600;
+               border: none;
+               border-radius: 3px;
+               cursor: pointer;
+             }
+             .copy:hover{
+            background: #0f4c3e;
+             transform: scale(0.9);
+             transition:0.2s ease;
+             }
+             .clear{
+               background: #ff4d4d;
+               padding: 10px 20px;
+               color: white;
+               font-weight: 600;
+               border: none;
+               border-radius: 3px;
+               cursor: pointer;
+             }
+             .clear:hover{
+               background: #e60000;
+               transform: scale(0.9);
+               transition:0.2s ease;
+             }
+        </style>
+    </head>
+    <body>
+     <div class="container">
+        <h2>&#128274 Secure Password Generator-by KJ</h2>
+        <input type="text" placeholder="Generated Password appears here.." readonly/>
+        <div class="controls">   
+        <input type="number" min="5" max="20" value="5" placeholder="Length of Password"/>
+        <button class="generate" onclick="Generatepassword()">Generate</button>
+        <button class="copy" onclick="Copy()">Copy</button>
+        <button class="clear" onclick="ClearPassword()">Clear</button>
+     </div>
+     </div>
+     <script>
+      function Generatepassword() {
+          let length = document.querySelector('input[type="number"]').value; // Get password length
+      
+          // Validate password length (should be between 5 and 20)
+          if (length < 5 || length > 20) {
+              alert("Password length must be between 5 and 20 characters.");
+              return;
+          }
+      
+          let charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+";
+          let password = "";
+      
+          for (let i = 0; i < length; i++) {
+              let randomIndex = Math.floor(Math.random() * charset.length);
+              password += charset[randomIndex];
+          }
+      
+          document.querySelector('input[type="text"]').value = password; // Set password in input field
+      }
+      function Copy() {
+    let passwordField = document.querySelector('input[type="text"]');
+    if (!passwordField.value) {
+        alert("No password to copy! Please generate one first.");
+        return;
+    }
+
+    // Use navigator.clipboard API directly
+    navigator.clipboard.writeText(passwordField.value)
+        .then(() => alert("Password copied to clipboard!"))
+        .catch(err => {
+            console.error("Failed to copy: ", err);
+            
+            // Fallback method for older browsers
+            let tempInput = document.createElement("textarea");
+            tempInput.value = passwordField.value;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            
+            alert("Password copied to clipboard!");
+        });
+}
+
+      // Clear function
+function ClearPassword() {
+    document.querySelector('input[type="text"]').value = ""; // Clears the password field
+    alert("Password Cleared Successfully!");
+}
+      </script>
+      
+    </body>
+</html>
